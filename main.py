@@ -3,15 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from assistant import Trip
 from functions import tools, INSTRUCTION
+import uvicorn
 
-app = FastAPI( title="Ask Pak tour API", 
-    version="0.0.1",
-    servers=[
-        {
-            "url": "http://127.0.0.1:8000", 
-            "description": "Development Server"
-        }
-        ])
+app = FastAPI( title="Ask Pak tour API")
 
 
 app.add_middleware(
@@ -74,3 +68,8 @@ async def chat(user_message: UserMessage):
         "response": response_text,
         "function_outputs": final_res["function_outputs"]
     }
+
+
+if __name__ == "__main__":
+    # Run the API using uvicorn on port 8000
+    uvicorn.run(app, host="0.0.0.0", port=8000)
